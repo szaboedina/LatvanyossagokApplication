@@ -25,5 +25,10 @@ namespace LatvanyossagokApplication
         {
 
         }
+
+        private void ButtonLatvanyossagModositas_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

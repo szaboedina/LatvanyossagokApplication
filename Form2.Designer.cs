@@ -49,6 +49,7 @@
             this.buttonLatvanyossagModositas.TabIndex = 26;
             this.buttonLatvanyossagModositas.Text = "Módosít";
             this.buttonLatvanyossagModositas.UseVisualStyleBackColor = true;
+            this.buttonLatvanyossagModositas.Click += new System.EventHandler(this.ButtonLatvanyossagModositas_Click);
             // 
             // textBoxLatvanyossagLeiras
             // 

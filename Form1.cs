@@ -64,10 +64,10 @@ namespace LatvanyossagokApplication
         void LatvanyossagListazas()
         {
             listBoxLatvanyossagok.Items.Clear();
-            if (listBoxVarosok.SelectedItems.Count > 0)
-            {
+            //if (listBoxVarosok.SelectedItems.Count > 0)
+           // {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "SELECT id, nev, leiras, ar, varos_id FROM latvanyossagok WHERE id=@id";
+                cmd.CommandText = "SELECT id, nev, leiras, ar, varos_id FROM latvanyossagok";
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -77,12 +77,12 @@ namespace LatvanyossagokApplication
                         var leiras = reader.GetString("leiras");
                         var ar = reader.GetInt32("ar");
                         var varos_id = reader.GetInt32("varos_id");
-                        cmd.Parameters.AddWithValue("@id", listBoxVarosok.SelectedItems);
+                       // cmd.Parameters.AddWithValue("@id", listBoxVarosok.SelectedItems);
 
                         listBoxLatvanyossagok.Items.Add(new Latvanyossagok(id, nev, leiras, ar, varos_id));
                     }
                 }
-            }
+           // }
             
         }
         private void VarosfelvetelButton_Click(object sender, EventArgs e)
@@ -188,9 +188,7 @@ namespace LatvanyossagokApplication
 
 
         }
-        private void buttonLatvanyossagModositas_Click(object sender, EventArgs e)
-        {
-        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -216,10 +214,7 @@ namespace LatvanyossagokApplication
         {
 
         }
-        private void VarosListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+ 
 
         private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {

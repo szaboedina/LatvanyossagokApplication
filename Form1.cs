@@ -64,21 +64,26 @@ namespace LatvanyossagokApplication
         void LatvanyossagListazas()
         {
             listBoxLatvanyossagok.Items.Clear();
-
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT id, nev, leiras, ar, varos_id FROM latvanyossagok";
-            using (var reader = cmd.ExecuteReader())
+            if (listBoxVarosok.SelectedItems.Count > 0)
             {
-                while (reader.Read())
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT id, nev, leiras, ar, varos_id FROM latvanyossagok WHERE id=@id";
+                using (var reader = cmd.ExecuteReader())
                 {
-                    var id = reader.GetInt32("id");
-                    var nev = reader.GetString("nev");
-                    var leiras = reader.GetString("leiras");
-                    var ar = reader.GetInt32("ar");
-                    var varos_id = reader.GetInt32("varos_id");
-                    listBoxLatvanyossagok.Items.Add(new Latvanyossagok(id, nev, leiras, ar, varos_id));
+                    while (reader.Read())
+                    {
+                        var id = reader.GetInt32("id");
+                        var nev = reader.GetString("nev");
+                        var leiras = reader.GetString("leiras");
+                        var ar = reader.GetInt32("ar");
+                        var varos_id = reader.GetInt32("varos_id");
+                        cmd.Parameters.AddWithValue("@id", listBoxVarosok.SelectedItems);
+
+                        listBoxLatvanyossagok.Items.Add(new Latvanyossagok(id, nev, leiras, ar, varos_id));
+                    }
                 }
             }
+            
         }
         private void VarosfelvetelButton_Click(object sender, EventArgs e)
         {
@@ -159,6 +164,33 @@ namespace LatvanyossagokApplication
                 }
             }
         }
+        private void ButtonLatvanyossagTorles_Click(object sender, EventArgs e)
+        {
+            if (listBoxLatvanyossagok.SelectedIndex == -1)
+            {
+                MessageBox.Show("Nincs látványosság kivalasztva!");
+                return;
+            }
+            else {
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "DELETE FROM latvanyossagok WHERE id = @id";
+            var latvanyossagok = (Latvanyossagok)listBoxLatvanyossagok.SelectedItem;
+            cmd.Parameters.AddWithValue("@id", latvanyossagok.Id);
+            cmd.ExecuteNonQuery();
+            LatvanyossagListazas();
+            }
+        }
+        Form2 formUpdate = new Form2();
+
+        private void ButtonLatvanyossagModositas_Click(object sender, EventArgs e)
+        {
+            formUpdate.Show();
+
+
+        }
+        private void buttonLatvanyossagModositas_Click(object sender, EventArgs e)
+        {
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -193,6 +225,7 @@ namespace LatvanyossagokApplication
         {
 
         }
+
 
     }
 }

@@ -17,6 +17,7 @@ namespace LatvanyossagokApplication
         public Form1()
         {
             InitializeComponent();
+            
             conn = new MySqlConnection("Server=localhost;Database=latvanyossagokdb;Uid=root;Pwd=;");
             conn.Open();
             var command = conn.CreateCommand();
@@ -37,19 +38,124 @@ namespace LatvanyossagokApplication
                         REFERENCES varosok(id)
                 )";
             command.ExecuteNonQuery();
+            VarosListazas();
+            LatvanyossagListazas();
         }
 
         void VarosListazas()
         {
+            listBoxVarosok.Items.Clear();
             comboVarosok.Items.Clear();
+
             var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT nev FROM varosok";
+            cmd.CommandText = "SELECT id, nev, lakossag FROM varosok";
             using(var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    var id = reader.GetString("nev");
-                    comboVarosok.Items.Add(new)
+                    var id = reader.GetInt32("id");
+                    var nev = reader.GetString("nev");
+                    var lakossag = reader.GetInt32("lakossag");
+                    listBoxVarosok.Items.Add(new Varos(id,nev,lakossag));
+                    comboVarosok.Items.Add(new Varos(id, nev, lakossag));
+                }
+            }
+        }
+        void LatvanyossagListazas()
+        {
+            listBoxLatvanyossagok.Items.Clear();
+
+            var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT id, nev, leiras, ar, varos_id FROM latvanyossagok";
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var id = reader.GetInt32("id");
+                    var nev = reader.GetString("nev");
+                    var leiras = reader.GetString("leiras");
+                    var ar = reader.GetInt32("ar");
+                    var varos_id = reader.GetInt32("varos_id");
+                    listBoxLatvanyossagok.Items.Add(new Latvanyossagok(id, nev, leiras, ar, varos_id));
+                }
+            }
+        }
+        private void VarosfelvetelButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(varosnevText.Text))
+                {
+                    var cmd = conn.CreateCommand();
+                    cmd.CommandText = @"INSERT INTO varosok(nev, lakossag)
+                                VALUES(@nev, @lakossag)";
+                    cmd.Parameters.AddWithValue("@nev", varosnevText.Text);
+                    cmd.Parameters.AddWithValue("@lakossag", lakossagSzam.Value);
+                    cmd.ExecuteNonQuery();
+                    listBoxVarosok.Items.Clear();
+                    VarosListazas();
+                }
+                else
+                {
+                    MessageBox.Show("Minden mezőt ki kell tölteni!");
+                }
+            }
+            catch (MySqlException ex)
+            {
+                if ( ex.Number==1062)
+                {
+                    MessageBox.Show("Már van ilyen nevű város az adatbázisban");
+                }
+            }
+        }
+        private void ButtonVarosTorles_Click(object sender, EventArgs e)
+        {
+            if (listBoxLatvanyossagok.Items.Count > 0)
+            {
+                MessageBox.Show("Nem törölhet olyan várost aminek látványossága van.");
+            }
+            else
+            {
+                if (listBoxVarosok.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Nincs város kivalasztva!");
+                    return;
+                }
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "DELETE FROM varosok WHERE id = @id";
+                var varos = (Varos)listBoxVarosok.SelectedItem;
+                cmd.Parameters.AddWithValue("@id", varos.Id);
+                cmd.ExecuteNonQuery();
+                VarosListazas();
+            }
+        }
+        private void buttonLatvanyossagFelvetel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(textBoxLatvanyossagNev.Text))
+                {
+                    var cmd = conn.CreateCommand();
+                    cmd.CommandText = @"INSERT INTO latvanyossagok(nev, leiras, ar, varos_id)
+                                VALUES(@nev, @leiras, @ar, @varos_id)";
+                    cmd.Parameters.AddWithValue("@nev", textBoxLatvanyossagNev.Text);
+                    cmd.Parameters.AddWithValue("@leiras", textBoxLatvanyossagLeiras.Text);
+                    cmd.Parameters.AddWithValue("@ar", latvanyossagAr.Value);
+                    var varos = (Varos)comboVarosok.SelectedItem;
+                    cmd.Parameters.AddWithValue("@varos_id", varos.Id);
+                    cmd.ExecuteNonQuery();
+                    LatvanyossagListazas();
+                }
+                else
+                {
+                    MessageBox.Show("Minden mezőt ki kell tölteni!");
+                }
+            }
+            catch (MySqlException ex)
+            {
+                if (ex.Number == 1062)
+                {
+                    MessageBox.Show("Már van ilyen nevű látványosság az adatbázisban");
                 }
             }
         }
@@ -78,42 +184,15 @@ namespace LatvanyossagokApplication
         {
 
         }
-
-        private void VarosfelvetelButton_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (!String.IsNullOrWhiteSpace(varosnevText.Text))
-                {
-                    var cmd = conn.CreateCommand();
-                    cmd.CommandText = @"INSERT INTO varosok(nev, lakossag)
-                                VALUES(@nev, @lakossag)";
-                    cmd.Parameters.AddWithValue("@nev", varosnevText.Text);
-                    cmd.Parameters.AddWithValue("@lakossag", lakossagSzam.Value);
-                    cmd.ExecuteNonQuery();
-                }
-                else
-                {
-                    MessageBox.Show("Minden mezőt ki kell tölteni!");
-                }
-
-            }
-            catch (MySqlException ex)
-            {
-                if ( ex.Number==1062)
-                {
-                    MessageBox.Show("Már van ilyen nevű város az adatbázisban");
-                }
-              
-            }
-
-
-            
-        }
-
         private void VarosListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void ListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

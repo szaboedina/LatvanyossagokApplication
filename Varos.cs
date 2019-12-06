@@ -25,7 +25,7 @@ namespace LatvanyossagokApplication
 
         public override string ToString()
         {
-            return nev + " : "+ lakossag;
+            return nev + " - Lakosság: "+ lakossag +" fő";
         }
     }
 }

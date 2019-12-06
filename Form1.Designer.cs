@@ -33,7 +33,7 @@
             this.lakossagSzam = new System.Windows.Forms.NumericUpDown();
             this.varosfelvetelButton = new System.Windows.Forms.Button();
             this.latvanyossagfelvetel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxLatvanyossagNev = new System.Windows.Forms.TextBox();
             this.customInstaller1 = new MySql.Data.MySqlClient.CustomInstaller();
             this.customInstaller2 = new MySql.Data.MySqlClient.CustomInstaller();
             this.latvanyossagAr = new System.Windows.Forms.NumericUpDown();
@@ -44,7 +44,12 @@
             this.latvanyossagLeirasLabel = new System.Windows.Forms.Label();
             this.latvanyossagArLabel = new System.Windows.Forms.Label();
             this.latvanyossagVarosLabel = new System.Windows.Forms.Label();
-            this.leirasTextBox = new System.Windows.Forms.TextBox();
+            this.textBoxLatvanyossagLeiras = new System.Windows.Forms.TextBox();
+            this.buttonLatvanyossagFelvetel = new System.Windows.Forms.Button();
+            this.listBoxVarosok = new System.Windows.Forms.ListBox();
+            this.buttonVarosTorles = new System.Windows.Forms.Button();
+            this.listBoxLatvanyossagok = new System.Windows.Forms.ListBox();
+            this.buttonLatvanyossagModositas = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.lakossagSzam)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.latvanyossagAr)).BeginInit();
             this.SuspendLayout();
@@ -78,7 +83,7 @@
             // 
             this.varosfelvetelButton.Location = new System.Drawing.Point(25, 108);
             this.varosfelvetelButton.Name = "varosfelvetelButton";
-            this.varosfelvetelButton.Size = new System.Drawing.Size(75, 27);
+            this.varosfelvetelButton.Size = new System.Drawing.Size(118, 27);
             this.varosfelvetelButton.TabIndex = 4;
             this.varosfelvetelButton.Text = "Hozzáadás";
             this.varosfelvetelButton.UseVisualStyleBackColor = true;
@@ -93,12 +98,12 @@
             this.latvanyossagfelvetel.TabIndex = 5;
             this.latvanyossagfelvetel.Text = "Látványosság felvétele";
             // 
-            // textBox1
+            // textBoxLatvanyossagNev
             // 
-            this.textBox1.Location = new System.Drawing.Point(149, 210);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(120, 22);
-            this.textBox1.TabIndex = 6;
+            this.textBoxLatvanyossagNev.Location = new System.Drawing.Point(149, 210);
+            this.textBoxLatvanyossagNev.Name = "textBoxLatvanyossagNev";
+            this.textBoxLatvanyossagNev.Size = new System.Drawing.Size(120, 22);
+            this.textBoxLatvanyossagNev.TabIndex = 6;
             // 
             // customInstaller2
             // 
@@ -173,19 +178,72 @@
             this.latvanyossagVarosLabel.TabIndex = 15;
             this.latvanyossagVarosLabel.Text = "Város";
             // 
-            // leirasTextBox
+            // textBoxLatvanyossagLeiras
             // 
-            this.leirasTextBox.Location = new System.Drawing.Point(149, 242);
-            this.leirasTextBox.Name = "leirasTextBox";
-            this.leirasTextBox.Size = new System.Drawing.Size(100, 22);
-            this.leirasTextBox.TabIndex = 16;
+            this.textBoxLatvanyossagLeiras.Location = new System.Drawing.Point(149, 242);
+            this.textBoxLatvanyossagLeiras.Name = "textBoxLatvanyossagLeiras";
+            this.textBoxLatvanyossagLeiras.Size = new System.Drawing.Size(120, 22);
+            this.textBoxLatvanyossagLeiras.TabIndex = 16;
+            // 
+            // buttonLatvanyossagFelvetel
+            // 
+            this.buttonLatvanyossagFelvetel.Location = new System.Drawing.Point(31, 343);
+            this.buttonLatvanyossagFelvetel.Name = "buttonLatvanyossagFelvetel";
+            this.buttonLatvanyossagFelvetel.Size = new System.Drawing.Size(120, 27);
+            this.buttonLatvanyossagFelvetel.TabIndex = 17;
+            this.buttonLatvanyossagFelvetel.Text = "Felvétel";
+            this.buttonLatvanyossagFelvetel.UseVisualStyleBackColor = true;
+            this.buttonLatvanyossagFelvetel.Click += new System.EventHandler(this.buttonLatvanyossagFelvetel_Click);
+            // 
+            // listBoxVarosok
+            // 
+            this.listBoxVarosok.FormattingEnabled = true;
+            this.listBoxVarosok.ItemHeight = 16;
+            this.listBoxVarosok.Location = new System.Drawing.Point(356, 28);
+            this.listBoxVarosok.Name = "listBoxVarosok";
+            this.listBoxVarosok.Size = new System.Drawing.Size(201, 148);
+            this.listBoxVarosok.TabIndex = 18;
+            this.listBoxVarosok.SelectedIndexChanged += new System.EventHandler(this.ListBox1_SelectedIndexChanged);
+            // 
+            // buttonVarosTorles
+            // 
+            this.buttonVarosTorles.Location = new System.Drawing.Point(583, 28);
+            this.buttonVarosTorles.Name = "buttonVarosTorles";
+            this.buttonVarosTorles.Size = new System.Drawing.Size(99, 23);
+            this.buttonVarosTorles.TabIndex = 19;
+            this.buttonVarosTorles.Text = "Törlés";
+            this.buttonVarosTorles.UseVisualStyleBackColor = true;
+            this.buttonVarosTorles.Click += new System.EventHandler(this.ButtonVarosTorles_Click);
+            // 
+            // listBoxLatvanyossagok
+            // 
+            this.listBoxLatvanyossagok.FormattingEnabled = true;
+            this.listBoxLatvanyossagok.ItemHeight = 16;
+            this.listBoxLatvanyossagok.Location = new System.Drawing.Point(356, 190);
+            this.listBoxLatvanyossagok.Name = "listBoxLatvanyossagok";
+            this.listBoxLatvanyossagok.Size = new System.Drawing.Size(201, 164);
+            this.listBoxLatvanyossagok.TabIndex = 20;
+            // 
+            // buttonLatvanyossagModositas
+            // 
+            this.buttonLatvanyossagModositas.Location = new System.Drawing.Point(583, 190);
+            this.buttonLatvanyossagModositas.Name = "buttonLatvanyossagModositas";
+            this.buttonLatvanyossagModositas.Size = new System.Drawing.Size(99, 23);
+            this.buttonLatvanyossagModositas.TabIndex = 21;
+            this.buttonLatvanyossagModositas.Text = "Módosítás";
+            this.buttonLatvanyossagModositas.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.leirasTextBox);
+            this.Controls.Add(this.buttonLatvanyossagModositas);
+            this.Controls.Add(this.listBoxLatvanyossagok);
+            this.Controls.Add(this.buttonVarosTorles);
+            this.Controls.Add(this.listBoxVarosok);
+            this.Controls.Add(this.buttonLatvanyossagFelvetel);
+            this.Controls.Add(this.textBoxLatvanyossagLeiras);
             this.Controls.Add(this.latvanyossagVarosLabel);
             this.Controls.Add(this.latvanyossagArLabel);
             this.Controls.Add(this.latvanyossagLeirasLabel);
@@ -194,7 +252,7 @@
             this.Controls.Add(this.varosNevLabel);
             this.Controls.Add(this.comboVarosok);
             this.Controls.Add(this.latvanyossagAr);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxLatvanyossagNev);
             this.Controls.Add(this.latvanyossagfelvetel);
             this.Controls.Add(this.varosfelvetelButton);
             this.Controls.Add(this.lakossagSzam);
@@ -217,7 +275,7 @@
         private System.Windows.Forms.NumericUpDown lakossagSzam;
         private System.Windows.Forms.Button varosfelvetelButton;
         private System.Windows.Forms.Label latvanyossagfelvetel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxLatvanyossagNev;
         private MySql.Data.MySqlClient.CustomInstaller customInstaller1;
         private MySql.Data.MySqlClient.CustomInstaller customInstaller2;
         private System.Windows.Forms.NumericUpDown latvanyossagAr;
@@ -228,7 +286,12 @@
         private System.Windows.Forms.Label latvanyossagLeirasLabel;
         private System.Windows.Forms.Label latvanyossagArLabel;
         private System.Windows.Forms.Label latvanyossagVarosLabel;
-        private System.Windows.Forms.TextBox leirasTextBox;
+        private System.Windows.Forms.TextBox textBoxLatvanyossagLeiras;
+        private System.Windows.Forms.Button buttonLatvanyossagFelvetel;
+        private System.Windows.Forms.ListBox listBoxVarosok;
+        private System.Windows.Forms.Button buttonVarosTorles;
+        private System.Windows.Forms.ListBox listBoxLatvanyossagok;
+        private System.Windows.Forms.Button buttonLatvanyossagModositas;
     }
 }
 
